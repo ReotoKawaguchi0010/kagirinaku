@@ -9,3 +9,4 @@ def init_page(request):
         data = {'data': 'hello world', 'method': request.method}
     response = Response(data)
     return response
+
