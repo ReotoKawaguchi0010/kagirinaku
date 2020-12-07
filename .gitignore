@@ -1,0 +1,9 @@
+node_modules
+.idea
+dist
+kagirinaku/configs/config.ini
+.DS_Store
+__pycache__
+mongo
+migrations/
+.idea/
