@@ -7,3 +7,4 @@ __pycache__
 mongo
 migrations/
 .idea/
+win_venv
