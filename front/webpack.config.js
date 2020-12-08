@@ -14,11 +14,11 @@ module.exports = {
         rules: [
             {
                 test: /\.css$/,
-                use: ['styles-loader', 'css-loader'],
+                use: ['style-loader', 'css-loader'],
             },
             {
                 test: /\.scss$/,
-                use: ['styles-loader', 'css-loader', 'sass-loader'],
+                use: ['style-loader', 'css-loader', 'sass-loader'],
             },
             {
                 test: /\.(jpe?g|png|gif|svg|icp)$/i,
