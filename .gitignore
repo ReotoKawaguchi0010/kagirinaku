@@ -4,7 +4,6 @@ dist
 kagirinaku/configs/config.ini
 .DS_Store
 __pycache__
-mongo
 migrations/
 .idea/
 win_venv
