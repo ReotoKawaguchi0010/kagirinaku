@@ -2,15 +2,11 @@ import React from "react"
 import ReactDom from "react-dom"
 import "./styles/index.css"
 
-import {Main} from "./components/main";
-import {Footer} from "./components/footer";
-import {Header} from "./components/header";
+import Routeing from "./routings/routings";
 
 ReactDom.render(
     <React.Fragment>
-        <Header />
-        <Main />
-        <Footer />
+        <Routeing />
     </React.Fragment>,
     document.getElementById('root')
 )
