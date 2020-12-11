@@ -1,11 +1,35 @@
 import React, { useState } from "react";
 import {makeStyles} from "@material-ui/core";
 
+import {Footer} from "./footer";
+import {Header} from "./header";
+
+import bodyBackground from "../../images/body_background.jpg";
+
 const pcStyles = {
     main: {
-        background: '#DE9927',
+
     },
     topImage: {},
+    backgroundImg: {
+        width: '100vw',
+        height: '100vh',
+        display: 'block',
+    },
+    body: {
+        position: 'absolute',
+        top: 950,
+        padding: '0 100px',
+        color: '#F8F8F8',
+        width: '100%',
+    },
+    title: {
+        fontSize: 40,
+    },
+    text: {
+        fontSize: 21,
+    }
+
 }
 
 const mobStyles = {
@@ -20,26 +44,32 @@ export const Main = () => {
     const classes = useStyles()
     return(
         <React.Fragment>
+            <Header />
             <main className={classes.main}>
-                <div>
+                <img src={bodyBackground} alt="bodyBackground" className={classes.backgroundImg} />
+                <div className={classes.body}>
                     <div>
-                        <div>限りなく演劇に近いコント</div>
-                        <div>testtesttesttesttesttesttesttesttesttesttesttesttesttesttest</div>
+                        <div className={classes.title}>限りなく演劇に近いコントとは</div>
+                        <div className={classes.text}>testtesttesttesttesttesttesttesttesttesttesttesttesttesttest</div>
                     </div>
                     <div>
-                        <div>おおつか</div>
-                        <div>testtesttesttesttesttesttesttesttesttesttesttest</div>
+                        <div className={classes.title}>おおつか</div>
+                        <div className={classes.text}>testtesttesttesttesttesttesttesttesttesttesttest</div>
                     </div>
                     <div>
-                        <div>かわぐち</div>
-                        <div>testtesttesttesttesttesttesttesttesttesttesttest</div>
+                        <div className={classes.title}>かわぐち</div>
+                        <div className={classes.text}>testtesttesttesttesttesttesttesttesttesttesttest</div>
                     </div>
                     <div>
-                        <div>みやもと</div>
-                        <div>testtesttesttesttesttesttesttesttesttesttesttest</div>
+                        <div className={classes.title}>みやもと</div>
+                        <div className={classes.text}>testtesttesttesttesttesttesttesttesttesttesttest</div>
                     </div>
                     <div>
-                        <div>お問い合わせ</div>
+                        <div className={classes.title}>活動内容</div>
+                        <div className={classes.text}>testtesttesttesttesttesttesttesttesttesttesttest</div>
+                    </div>
+                    <div>
+                        <div className={classes.title}>お問い合わせ</div>
                         <div>
                             <form>
                                 <div>お名前<input name="name" id="name"  /></div>
@@ -50,6 +80,7 @@ export const Main = () => {
                     </div>
                 </div>
             </main>
+            <Footer />
         </React.Fragment>
     )
 }

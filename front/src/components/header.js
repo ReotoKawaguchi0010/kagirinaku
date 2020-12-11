@@ -12,12 +12,12 @@ const pcStyles = {
     },
     groupName: {
         position: 'absolute',
-        top: 100,
+        top: 350,
         textAlign: 'center',
     },
     catchCopy: {
         position: 'absolute',
-        top: 200,
+        top: 825,
         textAlign: 'center',
     },
     figure: {
