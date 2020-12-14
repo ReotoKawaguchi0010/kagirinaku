@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import {makeStyles} from "@material-ui/core";
 
-import headerImage from "../../images/kagirinaku_header.jpg";
-
 const pcStyles = {
     main: {
         background: '#DE9927',
@@ -43,20 +41,12 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.between('xs', 'md')]: mobStyles,
 }));
 
-export const Header = () => {
+export const AppFooter = () => {
     const classes = useStyles()
 
     return(
         <React.Fragment>
-            <header>
-                <div className={classes.figure}>
-                    <div><img src={headerImage} alt='headerImage' className={classes.headerImage} /></div>
-                    <div className={classes.topImage}>
-                        <h1 className={classes.groupName}>限りなく演劇に近いコント</h1>
-                        <h2 className={classes.catchCopy}><div>No Fiction!</div><div>No Life!</div></h2>
-                    </div>
-                </div>
-            </header>
+            <footer>footer</footer>
         </React.Fragment>
     )
 }

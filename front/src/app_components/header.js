@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import {makeStyles} from "@material-ui/core";
+import { makeStyles } from '@material-ui/core/styles';
 
-import headerImage from "../../images/kagirinaku_header.jpg";
+import {HeaderBar} from "../containers/app_bar";
 
 const pcStyles = {
     main: {
@@ -43,19 +43,13 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.between('xs', 'md')]: mobStyles,
 }));
 
-export const Header = () => {
+export const AppHeader = () => {
     const classes = useStyles()
 
     return(
         <React.Fragment>
             <header>
-                <div className={classes.figure}>
-                    <div><img src={headerImage} alt='headerImage' className={classes.headerImage} /></div>
-                    <div className={classes.topImage}>
-                        <h1 className={classes.groupName}>限りなく演劇に近いコント</h1>
-                        <h2 className={classes.catchCopy}><div>No Fiction!</div><div>No Life!</div></h2>
-                    </div>
-                </div>
+                <HeaderBar />
             </header>
         </React.Fragment>
     )
