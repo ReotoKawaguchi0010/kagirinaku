@@ -92,9 +92,6 @@ export const HeaderBar = () => {
                         <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
                         <MenuIcon />
                         </IconButton>
-                        <Typography variant="h6" className={classes.title}>
-                        脚本投稿サイト
-                        </Typography>
                         <div className={classes.search}>
                             <div><SearchIcon className={classes.searchIcon} /></div>
                             <InputBase
@@ -106,6 +103,9 @@ export const HeaderBar = () => {
                                 inputProps={{ 'aria-label': 'search' }}
                             />
                         </div>
+                        <Typography variant="h6" className={classes.title}>
+
+                        </Typography>
                         <Button color="inherit">ログイン</Button>
                     </Toolbar>
                 </AppBar>

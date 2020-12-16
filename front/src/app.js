@@ -1,16 +1,15 @@
 import React from "react";
-import { Route } from "react-router";
 
-import {Main} from "./components/main";
-import {AppMain} from "./app_components/main";
+import {RouteWithSubRoutes} from "./routings/routings";
+import _ from "lodash";
 
-export default class App extends React.Component {
-    render(){
-        return(
-            <React.Fragment>
-                <Route exact path='/' component={Main} />
-                <Route exact path='/scenarios' component={AppMain} />
-            </React.Fragment>
-        )
-    }
+export const App = ({routes}) => {
+    return (
+        <React.Fragment>
+            {_.map(routes, (route, i) => (
+                <RouteWithSubRoutes key={i} {...route} />
+            ))}
+        </React.Fragment>
+    )
 }
+

@@ -7,8 +7,9 @@ const outputPath = path.resolve(__dirname, 'dist')
 module.exports = {
     entry: './src/index.js',
     output: {
-        filename: 'main.js',
-        path: outputPath,
+        path: path.join(__dirname, 'dist'),
+        filename: "main.js",
+        publicPath: '/',
     },
     module: {
         rules: [
@@ -49,6 +50,8 @@ module.exports = {
         contentBase: outputPath,
         port: 3000,
         historyApiFallback: true,
+        watchContentBase: true,
+        open: true,
     },
     plugins: [
         new htmlWebpackPlugin({

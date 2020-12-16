@@ -1,28 +1,43 @@
 import React, { useState } from "react";
-import {makeStyles} from "@material-ui/core";
+import {makeStyles, Paper, Grid, TextField} from "@material-ui/core";
 import _ from "lodash";
 
 import {AppFooter} from "./footer";
 import {AppHeader} from "./header";
+import {RouteWithSubRoutes} from "../routings/routings";
+import {Switch} from "react-router-dom";
+import {Login} from "../containers/app_login";
 
-const pcStyles = {
+const pcStyles = theme => ({
     main: {
         height: '2000px',
         background: '#585858',
-        color: '#ffffff'
+        color: '#ffffff',
     },
-}
+    paper: {
+        padding: theme.spacing(2),
+        textAlign: 'center',
+        color: theme.palette.text.secondary,
+    },
+    root: {
+        flexGrow: 1,
+    },
+    gridRoot: {
+        width: '100%',
+        margin: 0,
+    },
+})
 
-const mobStyles = {
+const mobStyles = theme => ({
     main: {
         background: '#DE9927',
     },
 
-}
+})
 
 const useStyles = makeStyles((theme) => ({
-    [theme.breakpoints.between('md', 'xl')]: pcStyles,
-    [theme.breakpoints.between('xs', 'md')]: mobStyles,
+    [theme.breakpoints.between('md', 'xl')]: pcStyles(theme),
+    [theme.breakpoints.between('xs', 'md')]: mobStyles(theme),
 }));
 
 
@@ -36,28 +51,52 @@ let data = [
 
 data = JSON.stringify(data)
 
-
-
-
-const Main = () => {
+const AppRoot = () => {
     const classes = useStyles()
-    console.log(JSON.parse(data))
+
     return (
        <main className={classes.main}>
+           <div className={classes.root}>
+                <Grid container spacing={3} classes={{root: classes.gridRoot}}>
+                    <Grid item xs={6}>
+                        <Paper className={classes.paper}>test</Paper>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <Paper className={classes.paper}>test</Paper>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Paper className={classes.paper}>test</Paper>
+                    </Grid>
+                    <Grid item xs={3}>
+                        <Paper className={classes.paper}>test</Paper>
+                    </Grid>
+                </Grid>
+           </div>
        </main>
     )
 }
 
+const routes = [
+    {
+        path: '/scenarios/login',
+        component: Login,
+    },
+    {
+        path: "/scenarios",
+        component: AppRoot,
+    },
 
-
-
-
+];
 
 export const AppMain = () => {
     return(
         <React.Fragment>
             <AppHeader />
-            <Main />
+            <Switch>
+                {_.map(routes, (route, i) => (
+                    <RouteWithSubRoutes key={i} {...route} />
+                ))}
+            </Switch>
             <AppFooter />
         </React.Fragment>
     )

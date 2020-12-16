@@ -2,11 +2,11 @@ import React from "react"
 import ReactDom from "react-dom"
 import "./styles/index.css"
 
-import Routeing from "./routings/routings";
+import {Routing} from "./routings/routings";
 
 ReactDom.render(
     <React.Fragment>
-        <Routeing />
+        <Routing />
     </React.Fragment>,
     document.getElementById('root')
 )
