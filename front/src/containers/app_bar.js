@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { fade, makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -59,6 +60,10 @@ const pcStyles = theme => {
                 }
             }
         },
+        link: {
+            textDecoration: 'none',
+            color: 'initial',
+        },
     }
 }
 
@@ -106,7 +111,7 @@ export const HeaderBar = () => {
                         <Typography variant="h6" className={classes.title}>
 
                         </Typography>
-                        <Button color="inherit">ログイン</Button>
+                        <Button color="inherit"><Link to='scenarios/login' className={classes.link}>ログイン</Link></Button>
                     </Toolbar>
                 </AppBar>
             </div>

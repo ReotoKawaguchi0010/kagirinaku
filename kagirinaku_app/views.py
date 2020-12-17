@@ -1,4 +1,3 @@
-import json
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
@@ -8,5 +7,22 @@ def init_page(request):
     if request.method == 'GET':
         data = {'data': 'hello world', 'method': request.method}
     response = Response(data)
+    return response
+
+@api_view(['POST'])
+def login(request):
+    data = {}
+    response = Response(data, content_type='application/json')
+    if request.method == 'POST':
+        if request.session.get('user') is None:
+            request.session['user'] = 'user'
+            if request.session.session_key is None:
+                request.session.create()
+            response = Response(data, content_type='application/json')
+            response.set_cookie('sessionid', request.session.session_key,
+                                httponly=True)
+            response['Access-Control-Allow-Credentials'] = 'true'
+            response.data = {'type': 'set_cookie'}
+            return response
     return response
 
