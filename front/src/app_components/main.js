@@ -1,5 +1,8 @@
 import React, { useState } from "react";
-import {makeStyles, Paper, Grid, TextField} from "@material-ui/core";
+import {
+    makeStyles,
+    Grid,
+} from "@material-ui/core";
 import _ from "lodash";
 
 import {AppFooter} from "./footer";
@@ -7,6 +10,7 @@ import {AppHeader} from "./header";
 import {RouteWithSubRoutes} from "../routings/routings";
 import {Switch} from "react-router-dom";
 import {Login} from "../containers/app_login";
+import {AppContent} from "../containers/app_content";
 
 const pcStyles = theme => ({
     main: {
@@ -42,14 +46,12 @@ const useStyles = makeStyles((theme) => ({
 
 
 let data = [
-    {'name': 'name', 'link': 'http://localhost:3000'},
-    {'name': 'name1', 'link': 'http://localhost:3000'},
-    {'name': 'name2', 'link': 'http://localhost:3000'},
-    {'name': 'name3', 'link': 'http://localhost:3000'},
-    {'name': 'name4', 'link': 'http://localhost:3000'},
+    {user: {name: 'name'}, 'link': '/login'},
+    {user: {name: 'name'}, 'link': '/login'},
+    {user: {name: 'name'}, 'link': '/login'},
+    {user: {name: 'name'}, 'link': '/login'},
+    {user: {name: 'name'}, 'link': '/'},
 ];
-
-data = JSON.stringify(data)
 
 const AppRoot = () => {
     const classes = useStyles()
@@ -58,18 +60,13 @@ const AppRoot = () => {
        <main className={classes.main}>
            <div className={classes.root}>
                 <Grid container spacing={3} classes={{root: classes.gridRoot}}>
-                    <Grid item xs={6}>
-                        <Paper className={classes.paper}>test</Paper>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <Paper className={classes.paper}>test</Paper>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <Paper className={classes.paper}>test</Paper>
-                    </Grid>
-                    <Grid item xs={3}>
-                        <Paper className={classes.paper}>test</Paper>
-                    </Grid>
+                    {
+                        _.map(data, (user, i) => (
+                            <Grid item xs={4} key={i}>
+                                <AppContent {...user} />
+                            </Grid>
+                        ))
+                    }
                 </Grid>
            </div>
        </main>

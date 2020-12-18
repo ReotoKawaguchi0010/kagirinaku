@@ -1,10 +1,10 @@
 import React, {useEffect} from "react";
-import { BrowserRouter as Router, Route, Switch, useRouteMatch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import _ from "lodash";
 
-import {App} from "../app";
 import {Main} from "../components/main";
 import {AppMain} from "../app_components/main";
+import {NotFound} from "../containers/error";
 
 const routes = [
     {
@@ -15,7 +15,10 @@ const routes = [
         path: '/',
         component: Main,
     },
-
+    {
+        path: '*',
+        component: NotFound,
+    },
 ];
 
 export const RouteWithSubRoutes = (route) => {

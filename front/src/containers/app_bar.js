@@ -1,14 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { fade, makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
+
+import {create} from "../config/config";
 
 const pcStyles = theme => {
     return {
@@ -64,6 +64,17 @@ const pcStyles = theme => {
             textDecoration: 'none',
             color: 'initial',
         },
+        iconButton: {
+            width: '7%',
+        },
+        svg: {
+            width: '100%',
+        },
+        logo: {
+            fill:'#ffffff',
+            stroke:'#494949',
+            strokeMiterlimit:'10',
+        },
     }
 }
 
@@ -86,17 +97,55 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.between('xs', 'md')]: mobStyles(theme),
 }));
 
+const LoginComp = (bool) => {
+    const classes = useStyles();
+
+    if(!bool.bool){
+        return <Button color="inherit"><Link to='/scenarios/login' className={classes.link}>ログイン</Link></Button>
+    }else{
+        return (
+            <div>ログイン済</div>
+        )
+    }
+}
+
 export const HeaderBar = () => {
     const classes = useStyles()
+
+    const [state, setState] = useState({
+        isLogin: false,
+    });
+
+    useEffect(() => {
+        create.get('/login').then((resp) => {
+            if(resp.data.login === 'true'){
+                setState({...state, isLogin: true})
+            }else{
+                setState({...state, isLogin: false})
+            }
+        })
+    }, [])
 
     return(
         <React.Fragment>
             <div className={classes.root}>
                 <AppBar position="static" color="default" style={{background: '#DE9927'}}>
                     <Toolbar>
-                        <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-                        <MenuIcon />
-                        </IconButton>
+                        <Button className={classes.iconButton}>
+                            <Link to="/scenarios">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 687.76 375.96" className={classes.svg}>
+                                    <g>
+                                        <polygon className={classes.logo}
+                                                 points="0.5 375.46 1 214.79 219.25 158.74 219.25 0.5 475.25 0.5 475.25 158.74 685.6 214.79 687.25 375.46 0.5 375.46"/>
+                                        <circle className={classes.logo} cx="540.01" cy="79.62" r="50"/>
+                                        <circle className={classes.logo} cx="147.74" cy="75.79" r="50"/>
+                                        <circle className={classes.logo} cx="343.88" cy="79.62" r="50"/>
+                                        <line className={classes.logo} x1="1" y1="214.79" x2="685.6" y2="214.79"/>
+                                        <line className={classes.logo} x1="219.25" y1="158.74" x2="475.25" y2="158.74"/>
+                                    </g>
+                                </svg>
+                            </Link>
+                        </Button>
                         <div className={classes.search}>
                             <div><SearchIcon className={classes.searchIcon} /></div>
                             <InputBase
@@ -111,7 +160,7 @@ export const HeaderBar = () => {
                         <Typography variant="h6" className={classes.title}>
 
                         </Typography>
-                        <Button color="inherit"><Link to='scenarios/login' className={classes.link}>ログイン</Link></Button>
+                        <LoginComp bool={state.isLogin} />
                     </Toolbar>
                 </AppBar>
             </div>

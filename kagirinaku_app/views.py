@@ -9,20 +9,23 @@ def init_page(request):
     response = Response(data)
     return response
 
-@api_view(['POST'])
+@api_view(['POST', 'GET'])
 def login(request):
-    data = {}
+    data = {'login': 'false'}
     response = Response(data, content_type='application/json')
     if request.method == 'POST':
         if request.session.get('user') is None:
             request.session['user'] = 'user'
             if request.session.session_key is None:
                 request.session.create()
-            response = Response(data, content_type='application/json')
             response.set_cookie('sessionid', request.session.session_key,
                                 httponly=True)
             response['Access-Control-Allow-Credentials'] = 'true'
             response.data = {'type': 'set_cookie'}
+            return response
+    elif request.method == 'GET':
+        if request.session.get('user') is not None:
+            response.data = {'login': 'true'}
             return response
     return response
 

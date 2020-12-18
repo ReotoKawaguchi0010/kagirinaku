@@ -1,12 +1,14 @@
 import React, {useState} from "react";
 import {makeStyles, Button, Input, IconButton, InputAdornment, Grid} from "@material-ui/core";
 import {Visibility, VisibilityOff} from "@material-ui/icons";
-import axios from 'axios';
+import {create} from "../config/config";
 
 const pcStyles = theme => ({
     main: {
         height: '100vh',
         minHeight: '100%',
+        background: '#585858',
+        color: '#ffffff',
     },
     title: {
         textAlign: 'center'
@@ -17,6 +19,7 @@ const pcStyles = theme => ({
     usernameRoot: {
         width: '20em',
         margin: '20px 0',
+        color: '#ffffff',
     },
     wrapForm: {
         justifyContent: 'center',
@@ -54,15 +57,6 @@ export const Login = ({params}) => {
     }
 
     const handleClickSubmit = () => {
-        const create = axios.create({
-            baseURL: 'http://localhost:8000/api',
-            responseType: 'json',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-Requested-With': 'XMLHttpRequest',
-            },
-            withCredentials: true,
-        });
         create.post('/login', {'test': 'test'}).then(resp => {
             console.log(resp)
         })
