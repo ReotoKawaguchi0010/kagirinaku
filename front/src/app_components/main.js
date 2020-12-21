@@ -12,6 +12,7 @@ import {Switch} from "react-router-dom";
 import {Login} from "../containers/app_login";
 import {AppContent} from "../containers/app_content";
 import {PrivatePage} from "../containers/private_page";
+import {SignIn} from "../containers/app_signin";
 
 const pcStyles = theme => ({
     main: {
@@ -91,6 +92,10 @@ const routes = [
     {
         path: '/scenarios/login',
         component: Login,
+    },
+    {
+        path: '/scenarios/signin',
+        component: SignIn,
     },
     {
         path: '/scenarios/mypage/:id',

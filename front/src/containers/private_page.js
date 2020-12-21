@@ -26,6 +26,7 @@ export const PrivatePage = (props) => {
     return (
         <React.Fragment>
             {state.login}
+            <h3>マイページ</h3>
             <Button onClick={handleClick}>ログアウト</Button>
         </React.Fragment>
         )

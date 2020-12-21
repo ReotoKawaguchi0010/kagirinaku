@@ -109,6 +109,11 @@ const LoginComp = (bool) => {
     }
 }
 
+const SignInComp = () => {
+    const classes = useStyles()
+    return <Button color="inherit"><Link to='/scenarios/signin' className={classes.link}>サインイン</Link></Button>
+}
+
 export const HeaderBar = () => {
     const classes = useStyles()
 
@@ -160,6 +165,7 @@ export const HeaderBar = () => {
                         <Typography variant="h6" className={classes.title}>
 
                         </Typography>
+                        <SignInComp />
                         <LoginComp bool={state.isLogin} />
                     </Toolbar>
                 </AppBar>
