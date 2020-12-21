@@ -11,7 +11,9 @@ def init_page(request):
 
 @api_view(['POST', 'GET'])
 def login(request):
+    print(request)
     data = {'login': 'false'}
+    print(request.method)
     response = Response(data, content_type='application/json')
     if request.method == 'POST':
         if request.session.get('user') is None:
@@ -29,3 +31,12 @@ def login(request):
             return response
     return response
 
+
+@api_view(['POST'])
+def logout(request):
+    response = Response({}, content_type='application/json')
+    if(request.method == 'POST'):
+        if request.session.get('user'):
+            request.session.delete()
+            response.delete_cookie('sessionid')
+    return response

@@ -11,10 +11,11 @@ import {RouteWithSubRoutes} from "../routings/routings";
 import {Switch} from "react-router-dom";
 import {Login} from "../containers/app_login";
 import {AppContent} from "../containers/app_content";
+import {PrivatePage} from "../containers/private_page";
 
 const pcStyles = theme => ({
     main: {
-        height: '2000px',
+        height: '100vh',
         background: '#585858',
         color: '#ffffff',
     },
@@ -34,9 +35,22 @@ const pcStyles = theme => ({
 
 const mobStyles = theme => ({
     main: {
-        background: '#DE9927',
+        height: '100vh',
+        background: '#585858',
+        color: '#ffffff',
     },
-
+    paper: {
+        padding: theme.spacing(2),
+        textAlign: 'center',
+        color: theme.palette.text.secondary,
+    },
+    root: {
+        flexGrow: 1,
+    },
+    gridRoot: {
+        width: '100%',
+        margin: 0,
+    },
 })
 
 const useStyles = makeStyles((theme) => ({
@@ -77,6 +91,10 @@ const routes = [
     {
         path: '/scenarios/login',
         component: Login,
+    },
+    {
+        path: '/scenarios/mypage/:id',
+        component: PrivatePage,
     },
     {
         path: "/scenarios",

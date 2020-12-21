@@ -7,3 +7,5 @@ __pycache__
 migrations/
 .idea/
 win_venv
+venv
+mac_venv

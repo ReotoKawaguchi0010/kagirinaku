@@ -17,7 +17,7 @@ const pcStyles = {
     },
     catchCopy: {
         position: 'absolute',
-        top: 825,
+        top: '87%',
         textAlign: 'center',
     },
     figure: {
