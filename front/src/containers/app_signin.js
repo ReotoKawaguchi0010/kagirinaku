@@ -1,6 +1,8 @@
 import React, {useState} from "react";
 import {makeStyles, Button, Input, IconButton, InputAdornment, Grid} from "@material-ui/core";
 import {Visibility, VisibilityOff} from "@material-ui/icons";
+import _ from "lodash";
+
 import {create} from "../config/config";
 
 const pcStyles = theme => ({
@@ -29,6 +31,9 @@ const pcStyles = theme => ({
         width: '100%',
         margin: 0,
     },
+    errorMsg: {
+
+    },
 })
 
 const mobStyles = theme => ({
@@ -51,9 +56,21 @@ export const SignIn = () => {
     const [state, setState] = useState({
         type: 'password',
         data: {
-            username: '',
-            password: '',
-            email: '',
+            username: {
+                error: false,
+                errorMsg: '',
+                value: '',
+            },
+            password: {
+                error: false,
+                errorMsg: '',
+                value: '',
+            },
+            email: {
+                error: false,
+                errorMsg: '',
+                value: '',
+            },
         },
     });
 
@@ -62,26 +79,31 @@ export const SignIn = () => {
     }
 
     const handleChangeInput = (e) => {
-        const data = {
-            username: state.data.username,
-            password: state.data.password,
-            email: state.data.email,
-        }
+        const data = {...state.data}
         switch (e.target.name){
             case 'username':
-                data.username = e.target.value
+                data.username.value = e.target.value
                 break
             case 'password':
-                data.password = e.target.value
+                data.password.value = e.target.value
                 break
             case 'email':
-                data.email = e.target.value
+                data.email.value = e.target.value
         }
         setState({...state, data: data})
     }
 
     const handleClickSend = () => {
-        console.log(state.data)
+        const stateData = {...state.data}
+        _.map(state.data, (data, key) => {
+            if(data.value === ''){
+                stateData[key].error = true
+                stateData[key].errorMsg = '入力してください'
+            }else{
+                stateData[key].error = false
+            }
+        })
+        setState({...state, stateData})
     }
 
     return (
@@ -96,7 +118,9 @@ export const SignIn = () => {
                             classes={{root: classes.usernameRoot}}
                             onChange={handleChangeInput}
                             name='username'
+                            error={state.data.username.error}
                         />
+                        {state.data.username.error ? state.data.username.errorMsg: false}
                     </div>
                     <div className={classes.usernameBlock}>
                         <Input
@@ -121,7 +145,7 @@ export const SignIn = () => {
                     <div className={classes.usernameBlock}>
                         <Input
                             required
-                            type={'text'}
+                            type={'email'}
                             placeholder='メールアドレス'
                             classes={{root: classes.usernameRoot}}
                             onChange={handleChangeInput}
