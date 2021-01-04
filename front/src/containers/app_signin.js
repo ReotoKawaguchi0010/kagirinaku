@@ -104,6 +104,14 @@ export const SignIn = () => {
             }
         })
         setState({...state, stateData})
+        const sendData = {
+            username: state.data.username.value,
+            password: state.data.password.value,
+            email: state.data.email.value
+        }
+        create.post('/signin', sendData).then((resp) => {
+            console.log(resp)
+        })
     }
 
     return (

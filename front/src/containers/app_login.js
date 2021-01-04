@@ -49,15 +49,45 @@ const useStyles = makeStyles((theme) => ({
 export const Login = ({params}) => {
     const classes = useStyles();
     const [state, setState] = useState({
-        type: 'password'
+        type: 'password',
+        data: {
+            username: {
+                error: false,
+                errorMsg: '',
+                value: '',
+            },
+            password: {
+                error: false,
+                errorMsg: '',
+                value: '',
+            },
+        },
     });
+
+    const handleChangeInput = (e) => {
+        const data = {...state.data}
+        switch (e.target.name){
+            case 'username':
+                data.username.value = e.target.value
+                break
+            case 'password':
+                data.password.value = e.target.value
+        }
+        setState({...state, data: data})
+    }
+
 
     const handleClickShowPass = () => {
         state.type === 'password' ? setState({...state, type: 'text'}) : setState({...state, type: 'password'})
     }
 
     const handleClickSubmit = () => {
-        create.post('/login', {'test': 'test'}).then(resp => {
+        const sendData = {
+            username: state.data.username.value,
+            password: state.data.password.value,
+        }
+
+        create.post('/login', sendData).then(resp => {
             console.log(resp)
         })
     }
@@ -72,6 +102,8 @@ export const Login = ({params}) => {
                             required
                             placeholder="ユーザーネーム"
                             classes={{root: classes.usernameRoot}}
+                            name="username"
+                            onChange={handleChangeInput}
                         />
                     </div>
                     <div className={classes.usernameBlock}>
@@ -90,6 +122,8 @@ export const Login = ({params}) => {
                                     </IconButton>
                                 </InputAdornment>
                             }
+                            name="password"
+                            onChange={handleChangeInput}
                         />
                     </div>
                     <div className={classes.usernameBlock}>
