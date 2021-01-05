@@ -1,9 +1,12 @@
-import React, {useState} from "react";
+import React, {useState, useContext} from "react";
 import {makeStyles, Button, Input, IconButton, InputAdornment, Grid} from "@material-ui/core";
 import {Visibility, VisibilityOff} from "@material-ui/icons";
-import {create} from "../config/config";
 
-const pcStyles = theme => ({
+import {AppContext} from "../app_contexts/AppContext";
+import {userAction} from "../actions/user_action";
+import {LOGIN} from "../reducers";
+
+const useStyles = makeStyles((theme) => ({
     main: {
         height: '100vh',
         minHeight: '100%',
@@ -29,18 +32,6 @@ const pcStyles = theme => ({
         width: '100%',
         margin: 0,
     },
-})
-
-const mobStyles = theme => ({
-    usernameBlock: {
-        textAlign: 'center',
-    },
-
-})
-
-const useStyles = makeStyles((theme) => ({
-    [theme.breakpoints.between('md', 'xl')]: pcStyles(theme),
-    [theme.breakpoints.between('xs', 'md')]: mobStyles(theme),
 }));
 
 
@@ -48,7 +39,10 @@ const useStyles = makeStyles((theme) => ({
 
 export const Login = ({params}) => {
     const classes = useStyles();
-    const [state, setState] = useState({
+
+    const {state, dispatch} = useContext(AppContext)
+
+    const [inputState, setInputState] = useState({
         type: 'password',
         data: {
             username: {
@@ -65,7 +59,7 @@ export const Login = ({params}) => {
     });
 
     const handleChangeInput = (e) => {
-        const data = {...state.data}
+        const data = {...inputState.data}
         switch (e.target.name){
             case 'username':
                 data.username.value = e.target.value
@@ -73,23 +67,21 @@ export const Login = ({params}) => {
             case 'password':
                 data.password.value = e.target.value
         }
-        setState({...state, data: data})
+        setInputState({...inputState, data: data})
     }
 
-
     const handleClickShowPass = () => {
-        state.type === 'password' ? setState({...state, type: 'text'}) : setState({...state, type: 'password'})
+        inputState.type === 'password' ? setInputState({...inputState, type: 'text'}) : setInputState({...inputState, type: 'password'})
     }
 
     const handleClickSubmit = () => {
         const sendData = {
-            username: state.data.username.value,
-            password: state.data.password.value,
+            username: inputState.data.username.value,
+            password: inputState.data.password.value,
         }
 
-        create.post('/login', sendData).then(resp => {
-            console.log(resp)
-        })
+        userAction({type: LOGIN, sendData: sendData}, dispatch)
+
     }
 
     return (
@@ -109,7 +101,7 @@ export const Login = ({params}) => {
                     <div className={classes.usernameBlock}>
                         <Input
                             required
-                            type={state.type}
+                            type={inputState.type}
                             placeholder="パスワード"
                             classes={{root: classes.usernameRoot}}
                             endAdornment={
@@ -118,7 +110,7 @@ export const Login = ({params}) => {
                                         aria-label="toggle password visibility"
                                         onClick={handleClickShowPass}
                                     >
-                                        {state.type === 'password' ? <VisibilityOff /> : <Visibility />}
+                                        {inputState.type === 'password' ? <VisibilityOff /> : <Visibility />}
                                     </IconButton>
                                 </InputAdornment>
                             }

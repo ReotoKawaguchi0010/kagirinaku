@@ -4,10 +4,11 @@ export const API_ROOT_URL = 'http://localhost:8000/api';
 
 export const create = axios.create({
     baseURL: API_ROOT_URL,
-    responseType: 'json',
     headers: {
         'Content-Type': 'application/json',
-        'X-Requested-With': 'XMLHttpRequest',
+        'X-Requested-With': 'XMLHttpRequest'
     },
+    responseType: 'json',
+    xsrfHeaderName: 'X-CSRF-Token',
     withCredentials: true,
 })

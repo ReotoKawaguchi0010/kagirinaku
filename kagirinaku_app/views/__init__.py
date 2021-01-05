@@ -1,0 +1,1 @@
+from kagirinaku_app.views.views import init_page, app
