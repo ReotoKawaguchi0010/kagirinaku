@@ -1,12 +1,9 @@
 import React, { useEffect, useContext} from "react";
 import { Link } from "react-router-dom";
 import { fade, makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
+import {AppBar, Toolbar, Typography, Button, InputBase} from '@material-ui/core'
 import SearchIcon from '@material-ui/icons/Search';
-import InputBase from '@material-ui/core/InputBase';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
 import {AppContext} from "../app_contexts/AppContext";
 import {Logo} from "../icons/logo";
@@ -79,6 +76,16 @@ const LoginComp = () => {
 const SignInComp = () => {
     const classes = useStyles()
     return <Button color="inherit"><Link to='/scenarios/signin' className={classes.link}>サインイン</Link></Button>
+}
+
+const LoggedComp = () => {
+    const {state, dispatch} = useContext(AppContext)
+
+    return (
+        <>
+            <Button><AccountCircleIcon /></Button>
+        </>
+    )
 }
 
 export const HeaderBar = () => {

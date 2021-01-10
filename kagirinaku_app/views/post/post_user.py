@@ -33,8 +33,6 @@ def login(request, response: Response, data: dict):
 def logout(request, response: Response, data: dict):
     if not request.session.is_empty():
         request.session.delete('user')
-        request.session.delete('username')
-        request.session.delete('time')
         response.delete_cookie('sessionid')
         response.data = {'login': 'false'}
     return response
