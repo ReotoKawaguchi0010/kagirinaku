@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useContext} from "react";
 import {makeStyles, Button, Input, IconButton, InputAdornment, Grid} from "@material-ui/core";
 import {Visibility, VisibilityOff} from "@material-ui/icons";
 import _ from "lodash";
@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
 
 export const SignIn = () => {
     const classes = useStyles();
-    const [state, setState] = useState({
+    const [sendState, setSendState] = useState({
         type: 'password',
         data: {
             username: {
@@ -75,11 +75,11 @@ export const SignIn = () => {
     });
 
     const handleClickShowPass = () => {
-        state.type === 'password' ? setState({...state, type: 'text'}) : setState({...state, type: 'password'})
+        sendState.type === 'password' ? setSendState({...sendState, type: 'text'}) : setSendState({...sendState, type: 'password'})
     }
 
     const handleChangeInput = (e) => {
-        const data = {...state.data}
+        const data = {...sendState.data}
         switch (e.target.name){
             case 'username':
                 data.username.value = e.target.value
@@ -90,11 +90,11 @@ export const SignIn = () => {
             case 'email':
                 data.email.value = e.target.value
         }
-        setState({...state, data: data})
+        setSendState({...sendState, data: data})
     }
 
     const handleClickSend = () => {
-        const stateData = {...state.data}
+        const stateData = {...sendState.data}
         _.map(state.data, (data, key) => {
             if(data.value === ''){
                 stateData[key].error = true
@@ -103,11 +103,11 @@ export const SignIn = () => {
                 stateData[key].error = false
             }
         })
-        setState({...state, stateData})
+        setSendState({...sendState, stateData})
         const sendData = {
-            username: state.data.username.value,
-            password: state.data.password.value,
-            email: state.data.email.value
+            username: sendState.data.username.value,
+            password: sendState.data.password.value,
+            email: sendState.data.email.value
         }
         create.post('/signin', sendData).then((resp) => {
             console.log(resp)
@@ -126,14 +126,14 @@ export const SignIn = () => {
                             classes={{root: classes.usernameRoot}}
                             onChange={handleChangeInput}
                             name='username'
-                            error={state.data.username.error}
+                            error={sendState.data.username.error}
                         />
-                        {state.data.username.error ? state.data.username.errorMsg: false}
+                        {sendState.data.username.error ? sendState.data.username.errorMsg: false}
                     </div>
                     <div className={classes.usernameBlock}>
                         <Input
                             required
-                            type={state.type}
+                            type={sendState.type}
                             placeholder="パスワード"
                             classes={{root: classes.usernameRoot}}
                             endAdornment={
@@ -142,7 +142,7 @@ export const SignIn = () => {
                                         aria-label="toggle password visibility"
                                         onClick={handleClickShowPass}
                                     >
-                                        {state.type === 'password' ? <VisibilityOff /> : <Visibility />}
+                                        {sendState.type === 'password' ? <VisibilityOff /> : <Visibility />}
                                     </IconButton>
                                 </InputAdornment>
                             }

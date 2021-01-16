@@ -14,8 +14,9 @@ def init_page(request):
 @api_view(['POST', 'GET', 'PUT', 'DELETE'])
 def app(request):
     response = Response({}, content_type='application/json')
-    if request.method == 'POST':
-        response = post.main(request, response)
-    elif request.method == 'GET':
-        response = get.main(request, response)
+    if request.content_type == 'application/json':
+        if request.method == 'POST':
+            response = post.main(request, response)
+        elif request.method == 'GET':
+            response = get.main(request, response)
     return response

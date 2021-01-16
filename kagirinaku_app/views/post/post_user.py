@@ -1,8 +1,22 @@
 import datetime
 
 from django.contrib.auth.models import User
-
 from rest_framework.views import Response
+
+from kagirinaku_app.models.user import UserData
+
+def signin(request, response: Response, data: dict):
+    if 'username' in data and 'password' in data and 'email' in data:
+        username = data['username']
+        password = data['password']
+        email = data['email']
+        user_data = UserData()
+        user_data.save_user_data(username=username, password=password, email=email)
+
+    return response
+
+
+
 
 
 def login(request, response: Response, data: dict):
