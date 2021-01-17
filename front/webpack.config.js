@@ -50,8 +50,6 @@ module.exports = {
         contentBase: outputPath,
         port: 3000,
         historyApiFallback: true,
-        watchContentBase: true,
-        open: true,
     },
     plugins: [
         new htmlWebpackPlugin({

@@ -5,6 +5,7 @@ import {Visibility, VisibilityOff} from "@material-ui/icons";
 import {AppContext} from "../app_contexts/AppContext";
 import {userAction} from "../actions/user_action";
 import {LOGIN} from "../reducers";
+import {sendAction} from "../utils/utils";
 
 const useStyles = makeStyles((theme) => ({
     main: {
@@ -80,7 +81,7 @@ export const Login = ({params}) => {
             password: inputState.data.password.value,
         }
 
-        userAction({type: LOGIN, sendData: sendData}, dispatch)
+        userAction(sendAction(LOGIN, state, 'post', sendData), dispatch)
 
     }
 

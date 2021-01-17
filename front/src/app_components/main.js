@@ -7,7 +7,7 @@ import {
 } from "@material-ui/core";
 import _ from "lodash";
 
-import reducers from "../reducers"
+import reducers, {defaultUserReducer} from "../reducers"
 import {AppContext} from "../app_contexts/AppContext";
 import {AppFooter} from "./footer";
 import {AppHeader} from "./header";
@@ -73,7 +73,9 @@ const AppRoot = () => {
 }
 
 const Provider = ({children}) => {
-    const [state, dispatch] = useReducer(reducers, {});
+    const [state, dispatch] = useReducer(reducers, {
+        userReducer: defaultUserReducer,
+    });
     return <AppContext.Provider value={{state, dispatch}}>{children}</AppContext.Provider>
 }
 

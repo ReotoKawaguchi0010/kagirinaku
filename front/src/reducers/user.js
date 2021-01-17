@@ -8,12 +8,13 @@ const initialState = {
 export const userReducer = (state=initialState, action) => {
     switch (action.type){
         case 'userInitial':
-            return {...state}
+            if (Boolean(action.state)) state = action.state
+            return action.data.login === 'true' ? {...state.userReducer, login: true, user: action.data.user}: {...state.userReducer, login: false}
         case LOGIN:
-            return {...state, login: action.data.login}
+            return action.data.login === 'true' ? {...state.userReducer, login: true}: {...state.userReducer, login: false}
         case LOGOUT:
-            return {...state, login: false}
+            return {...state.userReducer, login: false}
         default:
-            return {...state}
+            return {...state.userReducer}
     }
 }

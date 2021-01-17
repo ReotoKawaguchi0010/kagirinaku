@@ -1,7 +1,7 @@
 import React, { useEffect, useContext} from "react";
 import { Link } from "react-router-dom";
 import { fade, makeStyles } from '@material-ui/core/styles';
-import {AppBar, Toolbar, Typography, Button, InputBase} from '@material-ui/core'
+import {AppBar, Toolbar, Typography, Button, InputBase, Avatar} from '@material-ui/core'
 import SearchIcon from '@material-ui/icons/Search';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
@@ -9,6 +9,7 @@ import {AppContext} from "../app_contexts/AppContext";
 import {Logo} from "../icons/logo";
 
 import {userAction} from "../actions/user_action";
+import {sendAction} from "../utils/utils";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -91,7 +92,7 @@ const LoggedComp = () => {
 export const HeaderBar = () => {
     const {state, dispatch} =  useContext(AppContext)
     useEffect(() => {
-        userAction({type: 'userInitial'}, dispatch)
+        userAction(sendAction('userInitial', state, 'get'), dispatch)
     }, [])
 
     const classes = useStyles()
@@ -122,8 +123,18 @@ export const HeaderBar = () => {
                         <Typography variant="h6" className={classes.title}>
 
                         </Typography>
-                        <SignInComp />
-                        <LoginComp />
+                        {
+                            state.userReducer.login ? (
+                                <>
+                                    <Avatar>{state.userReducer.user.username[0]}</Avatar>
+                                </>
+                            ) : (
+                                <>
+                                    <SignInComp />
+                                    <LoginComp />
+                                </>
+                            )
+                        }
                     </Toolbar>
                 </AppBar>
             </div>
