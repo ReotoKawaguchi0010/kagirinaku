@@ -126,7 +126,7 @@ export const HeaderBar = () => {
                         {
                             state.userReducer.login ? (
                                 <>
-                                    <Avatar>{state.userReducer.user.username[0]}</Avatar>
+                                    <Avatar>{state.userReducer.user.username ? state.userReducer.user.username[0] : ''}</Avatar>
                                 </>
                             ) : (
                                 <>
