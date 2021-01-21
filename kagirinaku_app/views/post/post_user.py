@@ -37,7 +37,14 @@ def login(request, response: Response, data: dict):
                     if not request.session.session_key:
                         request.session.create()
                     response.set_cookie('sessionid', request.session.session_key)
-                    response.data = {'login': 'true'}
+                    response.data = {'login': 'true',
+                                     'user': {
+                                        'username': user.username,
+                                        'email': user.email,
+                                        'first_name': user.first_name,
+                                        'last_name': user.last_name,
+                                        },
+                                     }
                 else:
                     response.data = {'login': 'false'}
     else:
