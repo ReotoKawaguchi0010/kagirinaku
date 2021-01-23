@@ -1,9 +1,14 @@
-import React, { useEffect, useContext} from "react";
+import React, {useEffect, useContext, useState} from "react";
 import { Link } from "react-router-dom";
 import { fade, makeStyles } from '@material-ui/core/styles';
-import {AppBar, Toolbar, Typography, Button, InputBase, Avatar} from '@material-ui/core'
+import {
+    AppBar, Toolbar, Typography,
+    Button, InputBase, Avatar,
+    MenuItem, Modal, Card, Select, Box,
+    Backdrop
+} from '@material-ui/core'
 import SearchIcon from '@material-ui/icons/Search';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import CreateIcon from '@material-ui/icons/Create';
 
 import {AppContext} from "../app_contexts/AppContext";
 import {Logo} from "../icons/logo";
@@ -67,27 +72,95 @@ const useStyles = makeStyles((theme) => ({
     iconButton: {
         width: '7%',
     },
+    selectWritingModeBox : {
+        textAlign: 'right',
+        paddingLeft: 20,
+        marginBottom: 20,
+    },
+    closeButtonBox: {
+        marginTop: 20,
+        textAlign: 'center',
+    },
+    editTextBox: {
+        border: 'solid 1px',
+        borderColor: '#000000',
+        height: '21em',
+        width: '100%',
+        overflowWrap: 'break-word',
+    },
 }));
 
-const LoginComp = () => {
-    const classes = useStyles();
-    return <Button color="inherit"><Link to='/scenarios/login' className={classes.link}>ログイン</Link></Button>
-}
-
-const SignInComp = () => {
+const AfterLogin = () => {
     const classes = useStyles()
-    return <Button color="inherit"><Link to='/scenarios/signin' className={classes.link}>サインイン</Link></Button>
-}
+    const {state, dispatch} =  useContext(AppContext)
+    const [modalState, setModalState] = useState({
+        open: false
+    })
+    const [writeState, setWriteState] = useState({
+        contentEdiTable: true,
+        writeMode: 'vertical-rl',
+        selectWriteMode: 1,
+    })
 
-const LoggedComp = () => {
-    const {state, dispatch} = useContext(AppContext)
+
+    const handleOpenClick = () => {
+        setModalState({...modalState, open: true})
+    }
+
+    const handleCloseEvent = () => {
+        setModalState({...modalState, open: false})
+    }
+
+    const handleSelectChange = e => {
+        let writeMode
+        Boolean(e.target.value) ? writeMode = 'vertical-rl' : writeMode = ''
+        setWriteState({...writeState, selectWriteMode: e.target.value, writeMode: writeMode})
+    }
+
+    const AppBackDrop = () => {
+        return (
+            <>
+                <Backdrop open={true} transitionDuration={0} style={{backgroundColor: 'rgb(222, 153, 39, 0.2)'}} />
+            </>
+        )
+    }
 
     return (
         <>
-            <Button><AccountCircleIcon /></Button>
+            <Modal BackdropComponent={AppBackDrop} BackdropProps={{timeout: 10}} open={modalState.open} style={{padding: 20}}>
+                <Card tabIndex="initial">
+                    <Box className={classes.selectWritingModeBox}>
+                        <Select onChange={handleSelectChange} value={writeState.selectWriteMode}>
+                            <MenuItem value={0}>横書き</MenuItem>
+                            <MenuItem value={1}>縦書き</MenuItem>
+                        </Select>
+                    </Box>
+                    <Typography
+                        className={classes.editTextBox}
+                        tabIndex="initial"
+                        style={{writingMode: writeState.writeMode}}
+                        contentEditable={writeState.contentEdiTable}
+                    />
+                    <Box className={classes.closeButtonBox}><Button onClick={handleCloseEvent}>閉じる</Button></Box>
+                </Card>
+            </Modal>
+            <Avatar>{state.userReducer.user.username ? state.userReducer.user.username[0] : ''}</Avatar>
+            <Button onClick={handleOpenClick}><CreateIcon /></Button>
         </>
     )
 }
+
+
+const BeforeLogin = () => {
+    const classes = useStyles()
+    return (
+        <>
+            <Button color="inherit"><Link to='/scenarios/login' className={classes.link}>ログイン</Link></Button>
+            <Button color="inherit"><Link to='/scenarios/signin' className={classes.link}>サインイン</Link></Button>
+        </>
+    )
+}
+
 
 export const HeaderBar = () => {
     const {state, dispatch} =  useContext(AppContext)
@@ -126,12 +199,11 @@ export const HeaderBar = () => {
                         {
                             state.userReducer.login ? (
                                 <>
-                                    <Avatar>{state.userReducer.user.username ? state.userReducer.user.username[0] : ''}</Avatar>
+                                    <AfterLogin />
                                 </>
                             ) : (
                                 <>
-                                    <SignInComp />
-                                    <LoginComp />
+                                    <BeforeLogin />
                                 </>
                             )
                         }
