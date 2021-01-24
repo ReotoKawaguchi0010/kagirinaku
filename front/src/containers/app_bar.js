@@ -1,4 +1,4 @@
-import React, {useEffect, useContext, useState} from "react";
+import React, {useEffect, useContext, useState, useRef} from "react";
 import { Link } from "react-router-dom";
 import { fade, makeStyles } from '@material-ui/core/styles';
 import {
@@ -12,7 +12,6 @@ import CreateIcon from '@material-ui/icons/Create';
 
 import {AppContext} from "../app_contexts/AppContext";
 import {Logo} from "../icons/logo";
-
 import {userAction} from "../actions/user_action";
 import {sendAction} from "../utils/utils";
 
@@ -125,6 +124,63 @@ const AfterLogin = () => {
         )
     }
 
+    const allowKeyDown = (e, check=false) => {
+        let keyboardEvent = null
+        switch (e.key) {
+            case 'ArrowLeft':
+                if(e.nativeEvent.isTrusted){
+                    let addEvent = {keyCode: 38, key: 'ArrowUp', code: 'ArrowUp', view: e.nativeEvent.view, bubbles: true}
+                    keyboardEvent = new KeyboardEvent( "keydown", addEvent)
+                    e.preventDefault()
+                }
+                if(check)console.log(e.nativeEvent)
+                return keyboardEvent
+            case 'ArrowRight':
+                if(e.nativeEvent.isTrusted){
+                    let addEvent = {keyCode: 40, key: 'ArrowDown', code: 'ArrowDown', view: e.nativeEvent.view, bubbles: true}
+                    keyboardEvent = new KeyboardEvent( "keydown",addEvent)
+                    e.preventDefault()
+                }
+                return keyboardEvent
+            case 'ArrowDown':
+                if(e.nativeEvent.isTrusted){
+                    let addEvent = {keyCode: 37, key: 'ArrowRight', code: 'ArrowRight', view: e.nativeEvent.view, bubbles: true}
+                    keyboardEvent = new KeyboardEvent( "keydown",addEvent)
+                    e.preventDefault()
+                }
+                return keyboardEvent
+            case 'ArrowUp':
+                if(e.nativeEvent.isTrusted){
+                    let addEvent = {keyCode: 39, key: 'ArrowLeft', code: 'ArrowLeft', view: e.nativeEvent.view, bubbles: true}
+                    keyboardEvent = new KeyboardEvent( "keydown",addEvent)
+                    e.preventDefault()
+                }
+                if(check)console.log(e.nativeEvent)
+                return keyboardEvent
+        }
+        return new Event('keydown')
+    }
+
+    const myRef = useRef(null)
+
+
+    const handleEditKeyDown = e => {
+        // let test = allowKeyDown(e)
+        // if(Boolean(test)){
+        //     switch (test.code) {
+        //         case 'ArrowLeft':
+        //             return myRef.current?.dispatchEvent(test)
+        //         case 'ArrowRight':
+        //             return e.currentTarget.dispatchEvent(test)
+        //         case 'ArrowDown':
+        //             return e.currentTarget.dispatchEvent(test)
+        //         case 'ArrowUp':
+        //             return e.currentTarget.dispatchEvent(test)
+        //     }
+        // }
+        console.log(window.getSelection())
+    }
+
     return (
         <>
             <Modal BackdropComponent={AppBackDrop} BackdropProps={{timeout: 10}} open={modalState.open} style={{padding: 20}}>
@@ -136,10 +192,13 @@ const AfterLogin = () => {
                         </Select>
                     </Box>
                     <Typography
+                        id={'test'}
+                        ref={myRef}
                         className={classes.editTextBox}
                         tabIndex="initial"
                         style={{writingMode: writeState.writeMode}}
                         contentEditable={writeState.contentEdiTable}
+                        onKeyDown={handleEditKeyDown}
                     />
                     <Box className={classes.closeButtonBox}><Button onClick={handleCloseEvent}>閉じる</Button></Box>
                 </Card>
@@ -196,17 +255,7 @@ export const HeaderBar = () => {
                         <Typography variant="h6" className={classes.title}>
 
                         </Typography>
-                        {
-                            state.userReducer.login ? (
-                                <>
-                                    <AfterLogin />
-                                </>
-                            ) : (
-                                <>
-                                    <BeforeLogin />
-                                </>
-                            )
-                        }
+                        {state.userReducer.login ? <AfterLogin /> : <BeforeLogin />}
                     </Toolbar>
                 </AppBar>
             </div>
