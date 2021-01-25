@@ -124,61 +124,50 @@ const AfterLogin = () => {
         )
     }
 
-    const allowKeyDown = (e, check=false) => {
-        let keyboardEvent = null
-        switch (e.key) {
-            case 'ArrowLeft':
-                if(e.nativeEvent.isTrusted){
-                    let addEvent = {keyCode: 38, key: 'ArrowUp', code: 'ArrowUp', view: e.nativeEvent.view, bubbles: true}
-                    keyboardEvent = new KeyboardEvent( "keydown", addEvent)
-                    e.preventDefault()
-                }
-                if(check)console.log(e.nativeEvent)
-                return keyboardEvent
-            case 'ArrowRight':
-                if(e.nativeEvent.isTrusted){
-                    let addEvent = {keyCode: 40, key: 'ArrowDown', code: 'ArrowDown', view: e.nativeEvent.view, bubbles: true}
-                    keyboardEvent = new KeyboardEvent( "keydown",addEvent)
-                    e.preventDefault()
-                }
-                return keyboardEvent
-            case 'ArrowDown':
-                if(e.nativeEvent.isTrusted){
-                    let addEvent = {keyCode: 37, key: 'ArrowRight', code: 'ArrowRight', view: e.nativeEvent.view, bubbles: true}
-                    keyboardEvent = new KeyboardEvent( "keydown",addEvent)
-                    e.preventDefault()
-                }
-                return keyboardEvent
-            case 'ArrowUp':
-                if(e.nativeEvent.isTrusted){
-                    let addEvent = {keyCode: 39, key: 'ArrowLeft', code: 'ArrowLeft', view: e.nativeEvent.view, bubbles: true}
-                    keyboardEvent = new KeyboardEvent( "keydown",addEvent)
-                    e.preventDefault()
-                }
-                if(check)console.log(e.nativeEvent)
-                return keyboardEvent
-        }
-        return new Event('keydown')
-    }
-
-    const myRef = useRef(null)
-
 
     const handleEditKeyDown = e => {
-        // let test = allowKeyDown(e)
-        // if(Boolean(test)){
-        //     switch (test.code) {
-        //         case 'ArrowLeft':
-        //             return myRef.current?.dispatchEvent(test)
-        //         case 'ArrowRight':
-        //             return e.currentTarget.dispatchEvent(test)
-        //         case 'ArrowDown':
-        //             return e.currentTarget.dispatchEvent(test)
-        //         case 'ArrowUp':
-        //             return e.currentTarget.dispatchEvent(test)
-        //     }
-        // }
-        console.log(window.getSelection())
+        let selection = window.getSelection()
+        const range = new Range()
+        switch (e.key) {
+            case 'ArrowLeft':
+                e.preventDefault()
+                if(e.currentTarget.textContent.length > 1){
+                    range.setStart(e.currentTarget.firstChild, e.currentTarget.textContent.length-1)
+                    range.setEnd(e.currentTarget.firstChild, e.currentTarget.textContent.length)
+                }
+                range.collapse(true)
+                selection.removeAllRanges()
+                break
+            case 'ArrowRight':
+                e.preventDefault()
+                if(e.currentTarget.textContent.length > 1){
+                    range.setStart(e.currentTarget.firstChild, e.currentTarget.textContent.length-1)
+                    range.setEnd(e.currentTarget.firstChild, e.currentTarget.textContent.length)
+                }
+                range.collapse(true)
+                selection.removeAllRanges()
+                break
+            case 'ArrowDown':
+                e.preventDefault()
+                console.log(selection)
+                if(selection.focusOffset < e.currentTarget.textContent.length){
+                    range.setStart(selection.anchorNode, selection.focusOffset+1)
+                    range.setEnd(selection.anchorNode, selection.anchorNode.textContent.length)
+                }
+                range.collapse(true)
+                selection.removeAllRanges()
+                break
+            case 'ArrowUp':
+                e.preventDefault()
+                if(selection.focusOffset > 0){
+                    range.setStart(selection.anchorNode, selection.focusOffset-1)
+                    range.setEnd(selection.anchorNode, selection.anchorNode.textContent.length)
+                }
+                range.collapse(true)
+                selection.removeAllRanges()
+                break
+        }
+        selection.addRange(range)
     }
 
     return (
@@ -193,7 +182,6 @@ const AfterLogin = () => {
                     </Box>
                     <Typography
                         id={'test'}
-                        ref={myRef}
                         className={classes.editTextBox}
                         tabIndex="initial"
                         style={{writingMode: writeState.writeMode}}
