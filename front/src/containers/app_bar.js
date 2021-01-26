@@ -127,23 +127,23 @@ const AfterLogin = () => {
 
     const handleEditKeyDown = e => {
         let selection = window.getSelection()
-        const range = new Range()
+        let range = new Range()
         switch (e.key) {
+            case 'Enter':
+                e.preventDefault()
+                let br = document.createElement('br')
+                range = selection.getRangeAt(0)
+                range.insertNode(br)
+                range.collapse(true);
+                selection.removeAllRanges();
+                break
             case 'ArrowLeft':
                 e.preventDefault()
-                if(e.currentTarget.textContent.length > 1){
-                    range.setStart(e.currentTarget.firstChild, e.currentTarget.textContent.length-1)
-                    range.setEnd(e.currentTarget.firstChild, e.currentTarget.textContent.length)
-                }
                 range.collapse(true)
                 selection.removeAllRanges()
                 break
             case 'ArrowRight':
                 e.preventDefault()
-                if(e.currentTarget.textContent.length > 1){
-                    range.setStart(e.currentTarget.firstChild, e.currentTarget.textContent.length-1)
-                    range.setEnd(e.currentTarget.firstChild, e.currentTarget.textContent.length)
-                }
                 range.collapse(true)
                 selection.removeAllRanges()
                 break
@@ -166,6 +166,13 @@ const AfterLogin = () => {
                 range.collapse(true)
                 selection.removeAllRanges()
                 break
+            default:
+                const div = document.createElement('div')
+                range = selection.getRangeAt(0)
+                div.textContent = range.startContainer.textContent
+                console.log(range)
+                range.collapse(true)
+                selection.removeAllRanges()
         }
         selection.addRange(range)
     }
@@ -181,7 +188,6 @@ const AfterLogin = () => {
                         </Select>
                     </Box>
                     <Typography
-                        id={'test'}
                         className={classes.editTextBox}
                         tabIndex="initial"
                         style={{writingMode: writeState.writeMode}}
