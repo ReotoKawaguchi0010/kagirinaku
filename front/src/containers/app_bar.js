@@ -131,9 +131,15 @@ const AfterLogin = () => {
         switch (e.key) {
             case 'Enter':
                 e.preventDefault()
-                let br = document.createElement('br')
                 range = selection.getRangeAt(0)
-                range.insertNode(br)
+                if(selection.anchorNode.parentElement.parentElement.nodeName === 'P'){
+                    const div = document.createElement('div')
+                    div.innerHTML = '<br />'
+                    selection.anchorNode.parentElement.parentElement.appendChild(div)
+                    console.log(selection.anchorNode.parentElement.nextElementSibling)
+                    range.setStart(selection.anchorNode.parentElement.nextElementSibling, 0)
+                    range.setEnd(selection.anchorNode.parentElement.nextElementSibling, 0)
+                }
                 range.collapse(true);
                 selection.removeAllRanges();
                 break
@@ -170,9 +176,16 @@ const AfterLogin = () => {
                 const div = document.createElement('div')
                 range = selection.getRangeAt(0)
                 div.textContent = range.startContainer.textContent
-                console.log(range)
-                range.collapse(true)
-                selection.removeAllRanges()
+                if(div.textContent !== '' && selection.anchorNode.parentElement.nodeName === 'P'){
+                    selection.anchorNode.textContent = ''
+                    selection.anchorNode.parentElement.appendChild(div)
+                    console.log(selection.anchorNode.parentElement)
+                    range.setStart(selection.anchorNode, 0)
+                    range.setEnd(selection.anchorNode, selection.anchorNode.textContent.length)
+
+                    range.collapse(true)
+                    selection.removeAllRanges()
+                }
         }
         selection.addRange(range)
     }
