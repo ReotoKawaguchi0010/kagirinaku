@@ -2,8 +2,8 @@ import datetime
 
 from django.contrib.auth.models import User
 from rest_framework.views import Response
-
 from kagirinaku_app.models.user import UserData
+
 
 def signin(request, response: Response, data: dict):
     if 'username' in data and 'password' in data and 'email' in data:
@@ -14,9 +14,6 @@ def signin(request, response: Response, data: dict):
         user_data.save_user_data(username=username, password=password, email=email)
 
     return response
-
-
-
 
 
 def login(request, response: Response, data: dict):
@@ -39,17 +36,18 @@ def login(request, response: Response, data: dict):
                     response.set_cookie('sessionid', request.session.session_key)
                     response.data = {'login': 'true',
                                      'user': {
-                                        'username': user.username,
-                                        'email': user.email,
-                                        'first_name': user.first_name,
-                                        'last_name': user.last_name,
-                                        },
+                                         'username': user.username,
+                                         'email': user.email,
+                                         'first_name': user.first_name,
+                                         'last_name': user.last_name,
+                                     },
                                      }
                 else:
                     response.data = {'login': 'false'}
     else:
         response.data = {'login': 'true'}
     return response
+
 
 def logout(request, response: Response, data: dict):
     if not request.session.is_empty():

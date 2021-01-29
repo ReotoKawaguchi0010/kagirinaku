@@ -174,6 +174,7 @@ const AfterLogin = () => {
                 break
             default:
                 const div = document.createElement('div')
+                div.className = 'text'
                 range = selection.getRangeAt(0)
                 div.textContent = range.startContainer.textContent
                 if(div.textContent !== '' && selection.anchorNode.parentElement.nodeName === 'P'){
@@ -207,7 +208,10 @@ const AfterLogin = () => {
                         contentEditable={writeState.contentEdiTable}
                         onKeyDown={handleEditKeyDown}
                     />
-                    <Box className={classes.closeButtonBox}><Button onClick={handleCloseEvent}>閉じる</Button></Box>
+                    <Box className={classes.closeButtonBox}>
+                        <Button onClick={handleCloseEvent}>閉じる</Button>
+                        <Button>投稿</Button>
+                    </Box>
                 </Card>
             </Modal>
             <Avatar>{state.userReducer.user.username ? state.userReducer.user.username[0] : ''}</Avatar>

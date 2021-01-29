@@ -2,8 +2,10 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
 from kagirinaku_app.views import post, put, get, delete
+from kagirinaku_app.utils.decorators.response import json_response
 
 @api_view(['GET'])
+@json_response(bool='true')
 def init_page(request):
     data = {}
     if request.method == 'GET':
@@ -11,9 +13,11 @@ def init_page(request):
     response = Response(data)
     return response
 
+
+
 @api_view(['POST', 'GET', 'PUT', 'DELETE'])
-def app(request):
-    response = Response({}, content_type='application/json')
+@json_response(bool='true')
+def app(request, response):
     if request.method == 'POST':
         if request.content_type == 'application/json':
             response = post.main(request, response)
