@@ -14,6 +14,7 @@ import {AppContext} from "../app_contexts/AppContext";
 import {Logo} from "../icons/logo";
 import {userAction} from "../actions/user_action";
 import {sendAction} from "../utils/utils";
+import {contentAction} from "../actions/content_action";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -99,6 +100,7 @@ const AfterLogin = () => {
         contentEdiTable: true,
         writeMode: 'vertical-rl',
         selectWriteMode: 1,
+        data: []
     })
 
 
@@ -189,7 +191,18 @@ const AfterLogin = () => {
                 }
         }
         selection.addRange(range)
+        if(selection.anchorNode.parentElement.parentElement.nodeName === 'P') {
+            const typoElm = selection.anchorNode.parentElement.parentElement
+            console.log(typoElm.textContent)
+
+        }
     }
+
+    const handlePostClick = e => {
+        contentAction(sendAction('content_action', state, 'post'), dispatch)
+    }
+
+
 
     return (
         <>
@@ -210,7 +223,7 @@ const AfterLogin = () => {
                     />
                     <Box className={classes.closeButtonBox}>
                         <Button onClick={handleCloseEvent}>閉じる</Button>
-                        <Button>投稿</Button>
+                        <Button onClick={handlePostClick}>投稿</Button>
                     </Box>
                 </Card>
             </Modal>
@@ -239,8 +252,6 @@ export const HeaderBar = () => {
     }, [])
 
     const classes = useStyles()
-
-    console.log(state)
 
     return(
         <React.Fragment>

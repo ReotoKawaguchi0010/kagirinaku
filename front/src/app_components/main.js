@@ -74,7 +74,7 @@ const AppRoot = () => {
 
 const Provider = ({children}) => {
     const [state, dispatch] = useReducer(reducers, {
-        userReducer: defaultUserReducer,
+        userReducer: defaultUserReducer, contentReducer: {content: ''},
     });
     return <AppContext.Provider value={{state, dispatch}}>{children}</AppContext.Provider>
 }

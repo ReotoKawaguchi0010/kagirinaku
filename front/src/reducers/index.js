@@ -1,6 +1,7 @@
 import {combineReducers} from "redux";
 
-import {userReducer} from "./user";
+import {userReducer} from "./user_reducer";
+import {contentReducer} from "./content_reducer";
 
 export const LOGIN = 'login'
 export const LOGOUT = 'logout'
@@ -13,4 +14,4 @@ export const defaultUserReducer = {
         email: '',
     },
 }
-export default combineReducers({userReducer})
+export default combineReducers({userReducer, contentReducer})
