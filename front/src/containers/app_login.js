@@ -1,6 +1,7 @@
 import React, {useState, useContext} from "react";
 import {makeStyles, Button, Input, IconButton, InputAdornment, Grid} from "@material-ui/core";
 import {Visibility, VisibilityOff} from "@material-ui/icons";
+import {Redirect} from "react-router";
 
 import {AppContext} from "../app_contexts/AppContext";
 import {userAction} from "../actions/user_action";
@@ -85,22 +86,25 @@ export const Login = ({params}) => {
 
     }
 
+    console.log(state)
     return (
-        <main className={classes.main}>
-            <Grid className={classes.wrapForm} container spacing={3} classes={{root: classes.gridRoot}}>
-                <Grid item xs={12} xl={12}>
-                    <h3 className={classes.title}>Login</h3>
-                    <div className={classes.usernameBlock}>
-                        <Input
+        <>
+            {state.userReducer.login ? <Redirect to="/scenarios" /> : (
+                <main className={classes.main}>
+                <Grid className={classes.wrapForm} container spacing={3} classes={{root: classes.gridRoot}}>
+                    <Grid item xs={12} xl={12}>
+                        <h3 className={classes.title}>Login</h3>
+                        <div className={classes.usernameBlock}>
+                            <Input
                             required
                             placeholder="ユーザーネーム"
                             classes={{root: classes.usernameRoot}}
                             name="username"
                             onChange={handleChangeInput}
-                        />
-                    </div>
-                    <div className={classes.usernameBlock}>
-                        <Input
+                            />
+                        </div>
+                        <div className={classes.usernameBlock}>
+                            <Input
                             required
                             type={inputState.type}
                             placeholder="パスワード"
@@ -117,15 +121,17 @@ export const Login = ({params}) => {
                             }
                             name="password"
                             onChange={handleChangeInput}
-                        />
-                    </div>
-                    <div className={classes.usernameBlock}>
-                        <Button variant="contained" color="primary" onClick={handleClickSubmit}>
-                            ログイン
-                        </Button>
-                    </div>
+                            />
+                        </div>
+                        <div className={classes.usernameBlock}>
+                            <Button variant="contained" color="primary" onClick={handleClickSubmit}>
+                                ログイン
+                            </Button>
+                        </div>
+                   </Grid>
                 </Grid>
-            </Grid>
-        </main>
+            </main>
+            )}
+        </>
     )
 }

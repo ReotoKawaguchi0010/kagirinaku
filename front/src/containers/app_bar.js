@@ -100,7 +100,7 @@ const AfterLogin = () => {
         contentEdiTable: true,
         writeMode: 'vertical-rl',
         selectWriteMode: 1,
-        data: []
+        nodeData: {},
     })
 
 
@@ -191,11 +191,9 @@ const AfterLogin = () => {
                 }
         }
         selection.addRange(range)
-        if(selection.anchorNode.parentElement.parentElement.nodeName === 'P') {
-            const typoElm = selection.anchorNode.parentElement.parentElement
-            console.log(typoElm.textContent)
 
-        }
+        setWriteState({...writeState, nodeData: e.target})
+        console.log(writeState)
     }
 
     const handlePostClick = e => {
