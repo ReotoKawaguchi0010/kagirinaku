@@ -136,6 +136,7 @@ const AfterLogin = () => {
                 range = selection.getRangeAt(0)
                 if(selection.anchorNode.parentElement.parentElement.nodeName === 'P'){
                     const div = document.createElement('div')
+                    div.className = 'text'
                     div.innerHTML = '<br />'
                     selection.anchorNode.parentElement.parentElement.appendChild(div)
                     console.log(selection.anchorNode.parentElement.nextElementSibling)
@@ -193,11 +194,13 @@ const AfterLogin = () => {
         selection.addRange(range)
 
         setWriteState({...writeState, nodeData: e.target})
-        console.log(writeState)
     }
 
     const handlePostClick = e => {
-        contentAction(sendAction('content_action', state, 'post'), dispatch)
+        const sendData = {
+            data: writeState.nodeData.children
+        }
+        contentAction(sendAction('content_action', state, 'post', sendData), dispatch)
     }
 
 
@@ -248,7 +251,6 @@ export const HeaderBar = () => {
     useEffect(() => {
         userAction(sendAction('userInitial', state, 'get'), dispatch)
     }, [])
-
     const classes = useStyles()
 
     return(

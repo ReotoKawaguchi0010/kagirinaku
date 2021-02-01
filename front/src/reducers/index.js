@@ -5,7 +5,7 @@ import {contentReducer} from "./content_reducer";
 
 export const LOGIN = 'login'
 export const LOGOUT = 'logout'
-export const defaultUserReducer = {
+const defaultUserReducer = {
     login: false,
     user: {
         username: '',
@@ -13,5 +13,13 @@ export const defaultUserReducer = {
         first_name: '',
         email: '',
     },
+}
+const defaultContentReducer = {
+    title: '',
+    content: {},
+}
+export const initialState = {
+    userReducer: defaultUserReducer,
+    contentReducer: defaultContentReducer,
 }
 export default combineReducers({userReducer, contentReducer})

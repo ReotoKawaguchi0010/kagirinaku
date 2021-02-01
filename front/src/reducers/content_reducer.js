@@ -1,14 +1,14 @@
+import {initialState} from "./index";
 
-
-
-export const contentReducer = (state, action) => {
+export const contentReducer = (state=initialState, action) => {
     if (Boolean(action.state)) state = action.state
     switch (action.type) {
         case 'content_action':
-            console.log(state)
-            return {...state}
+            return {...state.contentReducer}
         default:
-            return {...state}
+            console.log(state)
+            return state.contentReducer
+
     }
 
 }

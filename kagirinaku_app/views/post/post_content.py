@@ -4,8 +4,7 @@ from kagirinaku_app.utils.decorators.login import is_login
 
 
 @is_login
-def post_content(request, response: Response, data: dict):
+def post_content(request, response: Response):
     # if 'content' in data and 'title' in data:
-
-
+    print(request)
     return response

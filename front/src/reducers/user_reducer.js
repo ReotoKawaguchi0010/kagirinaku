@@ -1,9 +1,5 @@
-import {LOGIN, LOGOUT} from "./index";
+import {LOGIN, LOGOUT, initialState} from "./index";
 
-const initialState = {
-    login: false,
-    user: {},
-}
 
 export const userReducer = (state=initialState, action) => {
     if (Boolean(action.state)) state = action.state
@@ -15,6 +11,6 @@ export const userReducer = (state=initialState, action) => {
         case LOGOUT:
             return {...state.userReducer, login: false}
         default:
-            return {...state.userReducer}
+            return state.userReducer
     }
 }

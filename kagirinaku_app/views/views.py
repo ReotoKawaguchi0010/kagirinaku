@@ -19,8 +19,7 @@ def init_page(request):
 @json_response(bool='true')
 def app(request, response):
     if request.method == 'POST':
-        if request.content_type == 'application/json':
-            response = post.main(request, response)
+        response = post.main(request, response)
     elif request.method == 'GET':
         response = get.main(request, response)
     return response

@@ -1,10 +1,15 @@
+
+
 import {sendApi} from "../utils/utils";
+import JSZip from "jszip";
 
 
 export const contentAction = async (action, dispatch) => {
     try{
-        let sendData = {}
-        if(Boolean(action.sendData)) sendData = action.sendData
+        const zip = new JSZip()
+        console.log(zip)
+        let sendData = Boolean(action.sendData) ? action.sendData : {}
+        console.log(sendData)
         sendData.type = action.type
         let method = action.method
         const res = await sendApi(`/app`, sendData, method)
